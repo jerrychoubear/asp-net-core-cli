@@ -21,7 +21,7 @@ namespace asp_net_core_cli
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<MyMiddleware>();
+            app.UseMyMiddleware();
 
             app.Run(async (context) =>
             {
