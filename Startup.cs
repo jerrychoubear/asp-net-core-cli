@@ -20,6 +20,8 @@ namespace asp_net_core_cli
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var condition = true;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -30,7 +32,7 @@ namespace asp_net_core_cli
                 await context.Response.WriteAsync("Middleware 1 in.\r\n");
                 await context.Response.WriteAsync("Middleware 1 step 1.\r\n");
                 await context.Response.WriteAsync("Middleware 1 step 2.\r\n");
-                await next.Invoke();
+                if (condition) await next.Invoke();
                 await context.Response.WriteAsync("Middleware 1 step 3.\r\n");
                 await context.Response.WriteAsync("Middleware 1 step 4.\r\n");
                 await context.Response.WriteAsync("Middleware 1 out.\r\n");
@@ -41,7 +43,8 @@ namespace asp_net_core_cli
                 await context.Response.WriteAsync("Middleware 2 in.\r\n");
                 await context.Response.WriteAsync("Middleware 2 step 1.\r\n");
                 await context.Response.WriteAsync("Middleware 2 step 2.\r\n");
-                await next.Invoke();
+                condition = false;
+                if (condition) await next.Invoke();
                 await context.Response.WriteAsync("Middleware 2 step 3.\r\n");
                 await context.Response.WriteAsync("Middleware 2 step 4.\r\n");
                 await context.Response.WriteAsync("Middleware 2 out.\r\n");
@@ -52,7 +55,7 @@ namespace asp_net_core_cli
                 await context.Response.WriteAsync("Middleware 3 in.\r\n");
                 await context.Response.WriteAsync("Middleware 3 step 1.\r\n");
                 await context.Response.WriteAsync("Middleware 3 step 2.\r\n");
-                await next.Invoke();
+                if (condition) await next.Invoke();
                 await context.Response.WriteAsync("Middleware 3 step 3.\r\n");
                 await context.Response.WriteAsync("Middleware 3 step 4.\r\n");
                 await context.Response.WriteAsync("Middleware 3 out.\r\n");
