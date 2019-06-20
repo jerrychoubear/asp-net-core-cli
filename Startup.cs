@@ -25,9 +25,42 @@ namespace asp_net_core_cli
                 app.UseDeveloperExceptionPage();
             }
 
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Middleware 1 in.\r\n");
+                await context.Response.WriteAsync("Middleware 1 step 1.\r\n");
+                await context.Response.WriteAsync("Middleware 1 step 2.\r\n");
+                await next.Invoke();
+                await context.Response.WriteAsync("Middleware 1 step 3.\r\n");
+                await context.Response.WriteAsync("Middleware 1 step 4.\r\n");
+                await context.Response.WriteAsync("Middleware 1 out.\r\n");
+            });
+
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Middleware 2 in.\r\n");
+                await context.Response.WriteAsync("Middleware 2 step 1.\r\n");
+                await context.Response.WriteAsync("Middleware 2 step 2.\r\n");
+                await next.Invoke();
+                await context.Response.WriteAsync("Middleware 2 step 3.\r\n");
+                await context.Response.WriteAsync("Middleware 2 step 4.\r\n");
+                await context.Response.WriteAsync("Middleware 2 out.\r\n");
+            });
+
+            app.Use(async (context, next) =>
+            {
+                await context.Response.WriteAsync("Middleware 3 in.\r\n");
+                await context.Response.WriteAsync("Middleware 3 step 1.\r\n");
+                await context.Response.WriteAsync("Middleware 3 step 2.\r\n");
+                await next.Invoke();
+                await context.Response.WriteAsync("Middleware 3 step 3.\r\n");
+                await context.Response.WriteAsync("Middleware 3 step 4.\r\n");
+                await context.Response.WriteAsync("Middleware 3 out.\r\n");
+            });
+
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response.WriteAsync("Hello World!\r\n");
             });
         }
     }
