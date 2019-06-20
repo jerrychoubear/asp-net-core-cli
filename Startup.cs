@@ -38,16 +38,22 @@ namespace asp_net_core_cli
                 await context.Response.WriteAsync("Middleware 1 out.\r\n");
             });
 
-            app.Use(async (context, next) =>
-            {
-                await context.Response.WriteAsync("Middleware 2 in.\r\n");
-                await context.Response.WriteAsync("Middleware 2 step 1.\r\n");
-                await context.Response.WriteAsync("Middleware 2 step 2.\r\n");
-                condition = false;
-                if (condition) await next.Invoke();
-                await context.Response.WriteAsync("Middleware 2 step 3.\r\n");
-                await context.Response.WriteAsync("Middleware 2 step 4.\r\n");
-                await context.Response.WriteAsync("Middleware 2 out.\r\n");
+            app.Map("/test", config => {
+                config.Use(async (context, next) =>
+                {
+                    await context.Response.WriteAsync("Middleware 2 in.\r\n");
+                    await context.Response.WriteAsync("Middleware 2 step 1.\r\n");
+                    await context.Response.WriteAsync("Middleware 2 step 2.\r\n");
+                    if (condition) await next.Invoke();
+                    await context.Response.WriteAsync("Middleware 2 step 3.\r\n");
+                    await context.Response.WriteAsync("Middleware 2 step 4.\r\n");
+                    await context.Response.WriteAsync("Middleware 2 out.\r\n");
+                });
+
+                config.Run(async (context) =>
+                {
+                    await context.Response.WriteAsync("Hello World for test!\r\n");
+                });
             });
 
             app.Use(async (context, next) =>
