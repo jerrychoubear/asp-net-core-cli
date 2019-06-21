@@ -28,9 +28,11 @@ namespace asp_net_core_cli
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
             app.UseMyMiddleware();
             app.UseMvcWithDefaultRoute();
 
+            // terminal middleware
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!\r\n");
