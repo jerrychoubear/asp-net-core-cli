@@ -14,36 +14,31 @@ namespace asp_net_core_cli
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRouting();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var defaultRouteHandler = new RouteHandler(requestDelegate: context =>
+            app.UseMvc(routes =>
             {
-                var routeValues = context.GetRouteData().Values;
-                return context.Response.WriteAsync($"Route values: {string.Join(", ", routeValues)}");
+                routes.MapRoute(
+                    name: "about",
+                    template: "about",
+                    defaults: new { controller = "Home", action = "About" }
+                );
+
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
+                // 等同:
+                // routes.MapRoute(
+                //     name: "default",
+                //     template: "{controller}/{action}/{id?}",
+                //     defaults: new { controller = "Home", action = "Index" }
+                // );
             });
-
-            var routeBuilder = new RouteBuilder(applicationBuilder: app, defaultHandler: defaultRouteHandler);
-
-            routeBuilder.MapRoute(name: "default", template: "{first:regex(^(default|home)$)}/{second?}");
-
-            routeBuilder.MapGet(template: "user/{name}", handler: context =>
-            {
-                var name = context.GetRouteValue("name");
-                return context.Response.WriteAsync($"Get user, name: {name}");
-            });
-
-            routeBuilder.MapPost(template: "user/{name}", handler: context =>
-            {
-                var name = context.GetRouteValue("name");
-                return context.Response.WriteAsync($"Create user, name: {name}");
-            });
-
-            var routes = routeBuilder.Build();
-            app.UseRouter(routes);
         }
     }
 }
