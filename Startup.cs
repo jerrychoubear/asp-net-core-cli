@@ -1,9 +1,7 @@
-﻿using asp_net_core_cli.Interfaces;
-using asp_net_core_cli.Models;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace asp_net_core_cli
@@ -20,6 +18,11 @@ namespace asp_net_core_cli
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var rewriteOptions = new RewriteOptions()
+                .AddRewrite("about.aspx", "home/about", skipRemainingRules: true)
+                .AddRedirect("first", "home/index");
+            app.UseRewriter(rewriteOptions);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
