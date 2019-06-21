@@ -1,21 +1,24 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-public class MyMiddleware
+namespace asp_net_core_cli.Middlewares
 {
-    private RequestDelegate _next;
-
-    public MyMiddleware(RequestDelegate next)
+    public class MyMiddleware
     {
-        _next = next;
-    }
+        private RequestDelegate _next;
 
-    public async Task Invoke(HttpContext context)
-    {
-        await context.Response.WriteAsync($"{nameof(MyMiddleware)} in. \r\n");
+        public MyMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
 
-        await _next(context);
+        public async Task Invoke(HttpContext context)
+        {
+            //await context.Response.WriteAsync($"{nameof(MyMiddleware)} in. \r\n");
 
-        await context.Response.WriteAsync($"{nameof(MyMiddleware)} out. \r\n");
+            await _next(context);
+
+            //await context.Response.WriteAsync($"{nameof(MyMiddleware)} out. \r\n");
+        }
     }
 }
