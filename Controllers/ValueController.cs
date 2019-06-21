@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using asp_net_core_cli.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,5 +24,14 @@ namespace asp_net_core_cli.Controllers
         }
 
         public string Hello() => "Hello world";
+
+        public IActionResult Page()
+        {
+            ViewBag._transient = _transient;
+            ViewBag._scoped = _scoped;
+            ViewBag._singleton = _singleton;
+
+            return View();
+        }
     }
 }

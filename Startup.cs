@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using asp_net_core_cli.Extensions;
-using asp_net_core_cli.Interfaces;
+﻿using asp_net_core_cli.Interfaces;
 using asp_net_core_cli.Models;
-using Microsoft.Extensions.FileProviders;
-using System.IO;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace asp_net_core_cli
 {
@@ -29,34 +25,8 @@ namespace asp_net_core_cli
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            // #region must place before UseStaticFiles()                
-            // var defaultFilesOptions = new DefaultFilesOptions();
-            // defaultFilesOptions.DefaultFileNames.Clear();
-            // defaultFilesOptions.DefaultFileNames.Add("custom.html");
-            // app.UseDefaultFiles(defaultFilesOptions);
-            // #endregion
             
-            // var staticFileOptions = new StaticFileOptions();            
-            // staticFileOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, @"public1"));
-            // staticFileOptions.RequestPath = new PathString("/myfolder");            
-            // app.UseStaticFiles();
-            // app.UseStaticFiles(staticFileOptions);
-
-            var fileServerOptions = new FileServerOptions();
-            fileServerOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, @"public"));
-            fileServerOptions.RequestPath = new PathString("/pub");
-            fileServerOptions.EnableDirectoryBrowsing = true;
-            app.UseFileServer(fileServerOptions);
-
-            app.UseMyMiddleware();
             app.UseMvcWithDefaultRoute();
-
-            // terminal middleware
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!\r\n");
-            });
         }
     }
 }

@@ -1,0 +1,11 @@
+@namespace asp_net_core_cli.Interfaces
+
+@{
+    var _transient = ViewBag._transient as ISampleTransient;
+    var _scoped = ViewBag._scoped as ISampleScoped;
+    var _singleton = ViewBag._singleton as ISampleSingleton;
+}
+
+Hello! _transient Id is now @_transient.Id<br>
+Hello! _scoped Id is now @_scoped.Id<br>
+Hello! _singleton Id is now @_singleton.Id
