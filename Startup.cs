@@ -20,7 +20,7 @@ namespace asp_net_core_cli
         {
             var rewriteOptions = new RewriteOptions()
                 .AddRewrite("about.aspx", "home/about", skipRemainingRules: true)
-                .AddRedirect("first", "home/index");
+                .AddRedirect(@"home(\w+)", "home/$1");
             app.UseRewriter(rewriteOptions);
 
             app.UseMvc(routes =>
