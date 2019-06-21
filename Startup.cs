@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using asp_net_core_cli.Extensions;
 using asp_net_core_cli.Interfaces;
 using asp_net_core_cli.Models;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace asp_net_core_cli
 {
@@ -29,6 +31,11 @@ namespace asp_net_core_cli
             }
 
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, @"public1")),
+                RequestPath = new PathString("/myfolder"),
+            });
             app.UseMyMiddleware();
             app.UseMvcWithDefaultRoute();
 
