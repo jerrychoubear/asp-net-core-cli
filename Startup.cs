@@ -30,7 +30,11 @@ namespace asp_net_core_cli
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles();
+            var options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("custom.html");
+            // must place before UseStaticFiles()
+            app.UseDefaultFiles(options);
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
