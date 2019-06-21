@@ -14,7 +14,9 @@ namespace asp_net_core_cli
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ISample, Sample>();
+            services.AddTransient<ISampleTransient, Sample>();
+            services.AddScoped<ISampleScoped, Sample>();
+            services.AddSingleton<ISampleSingleton, Sample>();
             services.AddMvc();
         }
 

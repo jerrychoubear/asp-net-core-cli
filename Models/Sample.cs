@@ -2,7 +2,7 @@ using asp_net_core_cli.Interfaces;
 
 namespace asp_net_core_cli.Models
 {
-    public class Sample : ISample
+    public class Sample : ISampleTransient, ISampleScoped, ISampleSingleton
     {
         private static int _counter;
         private int _id;
