@@ -2,15 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace asp_net_core_cli.Controllers
 {
-    [Route("[controller]")]
     public class HomeController : Controller
     {
-        [Route("[action]")]
-        public string Index()
+        public string Index(int id)
         {
-            return "This is Home/Index";
+            return $"This is Home/Index with id = {id}";
         }
-        [Route("[action]")]
         public string About()
         {
             return "This is Home/About";
