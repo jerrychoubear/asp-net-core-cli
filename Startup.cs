@@ -30,17 +30,25 @@ namespace asp_net_core_cli
                 app.UseDeveloperExceptionPage();
             }
 
-            var options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("custom.html");
-            // must place before UseStaticFiles()
-            app.UseDefaultFiles(options);
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, @"public1")),
-                RequestPath = new PathString("/myfolder"),
-            });
+            // #region must place before UseStaticFiles()                
+            // var defaultFilesOptions = new DefaultFilesOptions();
+            // defaultFilesOptions.DefaultFileNames.Clear();
+            // defaultFilesOptions.DefaultFileNames.Add("custom.html");
+            // app.UseDefaultFiles(defaultFilesOptions);
+            // #endregion
+            
+            // var staticFileOptions = new StaticFileOptions();            
+            // staticFileOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, @"public1"));
+            // staticFileOptions.RequestPath = new PathString("/myfolder");            
+            // app.UseStaticFiles();
+            // app.UseStaticFiles(staticFileOptions);
+
+            var fileServerOptions = new FileServerOptions();
+            fileServerOptions.FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, @"public"));
+            fileServerOptions.RequestPath = new PathString("/pub");
+            fileServerOptions.EnableDirectoryBrowsing = true;
+            app.UseFileServer(fileServerOptions);
+
             app.UseMyMiddleware();
             app.UseMvcWithDefaultRoute();
 

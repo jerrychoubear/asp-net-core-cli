@@ -19,7 +19,6 @@ namespace asp_net_core_cli
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseWebRoot("public")
                 .UseStartup<Startup>();
     }
 }
